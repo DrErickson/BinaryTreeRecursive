@@ -3,4 +3,4 @@ project(BinaryTreeRecursive)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(BinaryTreeIterative Tree_usage_example.cpp TreeT.h)
+add_executable(BinaryTreeRecursive Tree_usage_example.cpp TreeT.h)
