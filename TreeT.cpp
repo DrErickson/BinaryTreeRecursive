@@ -26,6 +26,7 @@ void TreeT<T>::DestroyTree(TreeT::Node *node) {
 
 template<class T>
 void TreeT<T>::Add(T value) {
+    // Wrapper for AddHelper
 
     if (root == nullptr) {
         root = new Node;
@@ -33,12 +34,11 @@ void TreeT<T>::Add(T value) {
         return;
     }
 
-    AddHelper(root, value);
-
+    AddHelper(root, value); // add value in subtree starting at root
 }
 
 template<class T>
-void TreeT<T>::AddHelper(TreeT::Node *&subtree, T value) {
+void TreeT<T>::AddHelper(Node *&subtree, T value) {
 
     if (subtree == nullptr) {
         subtree = new Node;
@@ -48,11 +48,10 @@ void TreeT<T>::AddHelper(TreeT::Node *&subtree, T value) {
     }
 
     if (value < subtree->value) {
-        AddHelper(subtree->left);
-    } else if (value > subtree->value) {
-        AddHelper(subtree->right);
-    } else {
-        return;
+        AddHelper(subtree->left, value);  // Add value to left subtree
+    }
+    else {
+        AddHelper(subtree->right, value);  // Add value to left subtree
     }
 }
 
@@ -68,10 +67,10 @@ void TreeT<T>::RemoveHelper(Node*& subtree, T value) {
         DeleteNode(subtree);  // Found the node. Now delete it.
     }
     else if (value < subtree->value) {
-        subtree = subtree->left;    // go left
+        RemoveHelper(subtree->left, value);    // go left
     }
     else {
-        subtree = subtree->right;   // go right
+        RemoveHelper(subtree->right, value);   // go right
     }
 }
 
@@ -115,13 +114,29 @@ void TreeT<T>::GetPredecessor(TreeT::Node *curr, T& value) {
 
 template<class T>
 bool TreeT<T>::Contains(T value) {
+    // Wrapper function for ContainsHelper
     return ContainsHelper(root, value);
 }
 
 // Used for recursive version.
 template<class T>
 bool TreeT<T>::ContainsHelper(Node* subtree, T value) {
+    // base case 1
+    if (subtree == nullptr) {
+        return false;
+    }
 
+    // base case 2
+    if (subtree->value == value) {
+        return true;
+    }
+
+    if (value < subtree->value) {
+        return ContainsHelper(subtree->left, value);  // look in the left subtree for value
+    }
+    else {
+        return ContainsHelper(subtree->right, value);  // look in the right subtree for value
+    }
 }
 
 template<class T>

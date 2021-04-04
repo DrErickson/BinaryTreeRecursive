@@ -17,6 +17,7 @@ class TreeT {
 public:
     TreeT();
     ~TreeT();
+    TreeT(const TreeT<T> otherTree);
 
     void Add(T value);       // Add value to the tree
     void Remove(T value);    // Remove value from the tree
